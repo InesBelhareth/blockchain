@@ -11,15 +11,19 @@ console.log("Using contract at:", CONTRACT_ADDRESS);
 const provider = new ethers.JsonRpcProvider(RPC_URL);
 const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
 
-// ABI du contrat
 const contractABI = [
     "function givePoints(address to, uint256 amount, string memory reason) public",
     "function transferPoints(address to, uint256 amount) public",
     "function usePoints(uint256 amount, string memory reason) public",
     "function getBalance(address user) public view returns (uint256)",
-    "function rewardActivity(address[] memory participants, uint256 pointsEach, string memory activityName) public"
-];
+    "function checkIsOwner(address user) public view returns (bool)",
+    "function owner() public view returns (address)",
+    "function rewardActivity(address[] memory participants, uint256 pointsEach, string memory activityName) public",
 
+    "event PointsMinted(address indexed to, uint256 amount, string reason)",
+    "event PointsTransferred(address indexed from, address indexed to, uint256 amount)",
+    "event PointsBurned(address indexed from, uint256 amount, string reason)"
+];
 // Contract instance
 const contract = new ethers.Contract(CONTRACT_ADDRESS, contractABI, wallet);
 
